@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+    <title>blast</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='page-player.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='flashblock.css') }}">
+    <script src="{{ url_for('static', filename='sm2.js') }}"></script>
+    <script src="{{ url_for('static', filename='page-player.js') }}"></script>
+    <script>
+    soundManager.setup({
+        flashVersion: 9,
+        useHTML5Audio: true,
+        preferFlash: false,
+        useHighPerformance: true,
+        wmode: 'transparent',
+        url: '{{ url_for('static', filename='swf') }}'
+    });
+    </script>
+</head>
+<body>
+    <ul class="playlist">
+    {% for entry in entries %}
+        <li><a href="/play/{{ entry.file_name|safe }}">{{ entry.name }}</a></li>
+    {% else %}
+        <li><em>No playable files found.</em></li>
+    {% endfor %}
+    </ul>
+</body>

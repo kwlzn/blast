@@ -1,0 +1,100 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*- 
+#
+# blast it (re: http://www.youtube.com/watch?v=nTqEgbVEYJA)
+#
+
+import os, simplejson
+from flask import Flask, Response, render_template, url_for, send_from_directory, stream_with_context
+from lib.scanner import DirScanner
+
+DEBUG      = True
+SECRET_KEY = 'ruxer'
+USERNAME   = 'admin'
+PASSWORD   = 'default'
+SPLIT_SEQ  = '___'
+
+app = Flask(__name__)
+app.config.from_object(__name__)
+
+## courtesy of http://flask.pocoo.org/docs/patterns/streaming/
+def stream_template(template_name, **context):
+    app.update_template_context(context)
+    t = app.jinja_env.get_template(template_name)
+    rv = t.stream(context)
+    rv.enable_buffering(5)
+    return rv
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def ise(error):
+    return render_template('500.html'), 500
+
+@app.route('/favicon.ico')
+def favicon():
+    return app.send_static_file('favicon.ico')
+
+@app.route('/')
+def play():
+    ## does fast real-time loading of tracknames from .
+    def iterplayables():
+        ls = DirScanner()
+        ## filter out just mp3 files (and dirs to support recursion)
+        filt = lambda x: ( os.path.isdir(x) or x[-4:].lower() in ['.mp3', '.m4a'] )
+        ## take the last two segments of the path as the label
+        func = lambda x: '/'.join(x.split('/')[-2:])
+        ## iterate over all the files (excluding dirs), filtering for .mp3 and .m4a
+        for x,y in ls.iteritems(want_files=True, want_dirs=False, func=func, filt=filt):
+            yield { 'name':      x.decode('utf-8'),
+                    'file_name': y.replace('/', SPLIT_SEQ).decode('utf-8') }
+    return Response( stream_template( 'play.html', entries=stream_with_context(iterplayables()) ) )
+
+@app.route('/play/<filename>')
+def play_file(filename):
+    filename = filename.replace(SPLIT_SEQ, '/')
+    if not os.path.exists(filename): print 'ERROR: %s doesn\'t exist' % filename
+    base_dir, filename = os.path.dirname(filename), os.path.basename(filename)
+    return send_from_directory(base_dir, filename)
+
+## TODO:
+## - sortable dirs (timestamp, alpha, size, duration, bitrate, idv3, desc/asc)
+## - dir containers
+##   - scan a dir, yank all .mp3 files into ordered list for playback
+##   - if it's an image, try to determine the front/back image art and display it
+##   - show all other files as clickable links (but minimized) within the container
+## - IDv2,3 loading (on-demand and/or async poll/scanner based)
+## - quick search
+## - duplicate detection
+## - file standardization
+##   - atomic operations with strict validation & temporal undo - no data loss/corruption is acceptable
+##   - help user rename files to common std format Artist - Album [(Year)]/Artist - 00 Track Name.mp3
+##   - strip _'s, tags and other junk from directory and filenames to clean up your library
+##   - syncronize IDv2,3 tags to filename
+##   - ID tag reduction (2->3 etc)
+## - streaming load (optimize for speed/ux) - http://flask.pocoo.org/docs/patterns/streaming/
+## - websockets/persistent conns for ui snappiness
+## - seeking - byte range requests to skip ahead
+## - A-B looping
+## - DJ-like mixing (see tracks as waveforms, scrub waveforms to cue point to play)
+## - service framework (offline scanning, indexing and other tasks)
+## - ui views for internal scanner/indexer state: 15,000/25,000 files scanned etc
+## - scan phases: names, stat, id tags, mp3sum (checksum of data part of mp3), total checksum
+## - iOS testing/support 
+## - figure out why 'MS5/jj - a jj 12_ (2009)_' is broken
+## - drag/drop reordering + pop-out playlist controls
+
+#@app.route('/dupes')
+#def dupes():
+#    #searchword = request.args.get('key', '')
+#    ls = DirScanner(os.getcwd())
+#    entries = []
+#    for x in ls.iterdupes():
+#        entries.append( {'title': x[0], 'text': x[1]} )
+#    return render_template('dupes.html', entries=entries)
+
+if __name__ == '__main__':
+    ## use run(host='0.0.0.0') to run this externally (otherwise just runs on localhost)
+    app.run()
