@@ -4,7 +4,7 @@
 # blast it (re: http://www.youtube.com/watch?v=nTqEgbVEYJA)
 #
 
-import os
+import os, sys
 from flask import Flask, Response, render_template, url_for, send_from_directory, stream_with_context
 from lib.scanner import DirScanner
 
@@ -75,6 +75,17 @@ def play_file(filename):
 #        entries.append( {'title': x[0], 'text': x[1]} )
 #    return render_template('dupes.html', entries=entries)
 
+def usage(bail=False):
+    print ''' usage: cd /path/to/some/mp3s && blast
+    
+              options
+              -------
+                -h        Print this help screen
+                -x        Run externally (otherwise binds only to localhost)
+          '''
+    if bail: sys.exit(0)
+
 if __name__ == '__main__':
-    ## use run(host='0.0.0.0') to run this externally (otherwise just runs on localhost)
-    app.run()
+    if '-h' in sys.argv or '--help' in sys.argv: usage(bail=True)
+    host = '0.0.0.0' if ('-x' in sys.argv) else '127.0.0.1'
+    app.run(host=host)
