@@ -5,11 +5,13 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='page-player.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='flashblock.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='sticky.css') }}">
     <link rel>
     <script src="{{ url_for('static', filename='sm2.js') }}"></script>
     <script src="{{ url_for('static', filename='page-player.js') }}"></script>
     <script src="{{ url_for('static', filename='jquery-1.7.2.min.js') }}"></script>
     <script src="{{ url_for('static', filename='jquery.shuffle.js') }}"></script>
+    <script src="{{ url_for('static', filename='sticky.js') }}"></script>
     <script type="text/javascript">
     soundManager.setup({
         flashVersion: 9,
@@ -19,20 +21,29 @@
         wmode: 'transparent',
         url: '{{ url_for('static', filename='swf') }}'
     });
-    </script>
-    <script type="text/javascript">
+
+    function throttle(fn, delay) {
+      var timer = null;
+      return function () {
+        var context = this, args = arguments;
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+          fn.apply(context, args);
+        }, delay);
+      };
+    }
+
     jQuery(function($){
-    	$('body').keypress(function(e){
+    	$('body').keypress(throttle(function(e){
     	    var code = (e.keyCode ? e.keyCode : e.which);
     	    //$('div#notifications').html(code);
-    	    // 83  == s, 115 == S
+    	    // 83,115 == s,S
     	    // ref: http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
-    	    if (code == 83) {
+    	    if (code == 83 || code == 115) {
+    	        $.sticky('<b>Randomizing!</b>');
     	        $('ul').shuffle();
-    	    } else if (code == 115) {
-    	        $('ul').shuffle(); 
     	    } 
-    	});
+    	}, 250));
     });
     </script>
 </head>
