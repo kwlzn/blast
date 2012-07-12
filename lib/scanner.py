@@ -47,7 +47,7 @@ class DirScanner(object):
 
             ## filter out stuff we don't want
             if filt and not filt(af): continue
-            
+
             ## detect broken path strings
             if not os.path.exists(af): raise IOError('bad path: %s' % af)
             
@@ -62,7 +62,7 @@ class DirScanner(object):
                                         want_files = want_files,
                                         want_dirs  = want_dirs,
                                         func       = func,
-                                        filt       = None): yield x
+                                        filt       = filt): yield x
     
     def iterdupes(self, compare=None):
         ''' streaming item iterator for duplicate files

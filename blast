@@ -44,7 +44,8 @@ def stream_template(template_name, **context):
     return rv
 
 def iterplayables():
-    ''' fast iterator of playable file object dicts found on disk '''
+    ''' fast iterator of playable file object/dicts found on disk
+    '''
     ls = DirScanner()
     ## filter out just mp3 files (and dirs to support recursion)
     filt = lambda x: ( os.path.isdir(x) or x[-4:].lower() in ['.mp3', '.m4a'] )
