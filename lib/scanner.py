@@ -64,7 +64,7 @@ class DirScanner(object):
                                         func       = func,
                                         filt       = filt): yield x
     
-    def iterdupes(self, compare=None):
+    def iterdupes(self, compare=None, filt=None):
         ''' streaming item iterator for duplicate files
 
             Parameters:
@@ -74,7 +74,7 @@ class DirScanner(object):
         seen_siz = {}       ## store size   -> first seen filename
         seen_sum = {}       ## store chksum -> first seen filename
         size_func = lambda x: os.stat(x).st_size
-        for (fsize, f) in self.iteritems(func=size_func, dirs=False):
+        for (fsize, f) in self.iteritems(want_dirs=False, func=size_func, filt=filt):
             if fsize not in seen_siz:    ## state 1: no previous size collisions
                 seen_siz[fsize] = f
                 continue
