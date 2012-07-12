@@ -1,0 +1,27 @@
+TODO:
+
+ [x] streaming load (optimize for speed/ux) - http://flask.pocoo.org/docs/patterns/streaming/
+ [ ] seeking - byte range requests to skip ahead (note this works fine on linux w/ chrome.win32 currently)
+ [ ] sortable dirs (timestamp, alpha, size, duration, bitrate, idv3, desc/asc)
+ [ ] dir->album containers
+  [ ] scan a dir, yank all .mp3 files into ordered list for playback
+  [ ] if it's an image, try to determine the front/back image art and display it
+  [ ] show all other files as clickable links (but minimized) within the container
+ [ ] IDv2,3 loading (on-demand and/or async poll/scanner based)
+ [ ] quick search
+ [ ] duplicate detection
+ [ ] file standardization
+  [ ] atomic operations with strict validation & temporal undo - no data loss/corruption is acceptable
+  [ ] help user rename files to common std format Artist - Album [(Year)]/Artist - 00 Track Name.mp3
+  [ ] strip _'s, tags and other junk from directory and filenames to clean up your library
+  [ ] syncronize IDv2,3 tags to filename
+  [ ] ID tag reduction (2->3 etc)
+ [ ] websockets/persistent conns for ui snappiness
+ [ ] A-B looping
+ [ ] DJ-like mixing (see tracks as waveforms, scrub waveforms to cue point to play)
+ [ ] service framework (offline scanning, indexing and other tasks)
+ [ ] ui views for internal scanner/indexer state: 15,000/25,000 files scanned etc
+ [ ] scan phases: names, stat, id tags, mp3sum (checksum of data part of mp3), total checksum
+ [ ] iOS testing/support 
+ [ ] figure out why 'MS5/jj - a jj 12_ (2009)_' is broken
+ [ ] drag/drop reordering + pop-out playlist controls
