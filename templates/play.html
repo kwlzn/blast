@@ -5,9 +5,12 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='page-player.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='flashblock.css') }}">
+    <link rel>
     <script src="{{ url_for('static', filename='sm2.js') }}"></script>
     <script src="{{ url_for('static', filename='page-player.js') }}"></script>
-    <script>
+    <script src="{{ url_for('static', filename='jquery-1.7.2.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='jquery.shuffle.js') }}"></script>
+    <script type="text/javascript">
     soundManager.setup({
         flashVersion: 9,
         useHTML5Audio: true,
@@ -17,8 +20,24 @@
         url: '{{ url_for('static', filename='swf') }}'
     });
     </script>
+    <script type="text/javascript">
+    jQuery(function($){
+    	$('body').keypress(function(e){
+    	    var code = (e.keyCode ? e.keyCode : e.which);
+    	    //$('div#notifications').html(code);
+    	    // 83  == s, 115 == S
+    	    // ref: http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
+    	    if (code == 83) {
+    	        $('ul').shuffle();
+    	    } else if (code == 115) {
+    	        $('ul').shuffle(); 
+    	    } 
+    	});
+    });
+    </script>
 </head>
 <body>
+    <div id="notifications"></div>
     <ul class="playlist">
     {% for entry in entries %}
         <li><a href="/play/{{ entry.file_name|safe }}">{{ entry.name }}</a></li>
