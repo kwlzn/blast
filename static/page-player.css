@@ -305,3 +305,8 @@ ul.playlist li .peak .r {
 #control-template {
  display:none;
 }
+
+ul.playlist li .comment {
+ font-size:0.65em;
+ opacity:0.5;
+}
