@@ -1,6 +1,7 @@
 TODO:
 
  [x] streaming load (optimize for speed/ux) - http://flask.pocoo.org/docs/patterns/streaming/
+ [ ] fix security hole: streaming files outside of root dir
  [ ] seeking - byte range requests to skip ahead (note this works fine on linux w/ chrome.win32 currently)
  [ ] sortable dirs (timestamp, alpha, size, duration, bitrate, idv3, desc/asc)
  [ ] dir->album containers
