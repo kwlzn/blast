@@ -22,28 +22,54 @@
         url: '{{ url_for('static', filename='swf') }}'
     });
 
-    function throttle(fn, delay) {
-      var timer = null;
-      return function () {
-        var context = this, args = arguments;
-        clearTimeout(timer);
-        timer = setTimeout(function () {
-          fn.apply(context, args);
-        }, delay);
-      };
-    }
-
     jQuery(function($){
-    	$('body').keypress(throttle(function(e){
+    	$('body').keypress(function(e){
     	    var code = (e.keyCode ? e.keyCode : e.which);
-    	    //$('div#notifications').html(code);
-    	    // 83,115 == s,S
+    	    $('div#notifications').html(code);
     	    // ref: http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
-    	    if (code == 83 || code == 115) {
+    	    if (code == 114) {                              // r 
     	        $.sticky('<b>Randomizing!</b>');
     	        $('ul').shuffle();
-    	    } 
-    	}, 250));
+    	    } else if (code == 99) {                        // c
+    	        soundManager.togglePause(pagePlayer.lastSound.id);
+    	    } else if (code == 109) {                       // m
+    	        soundManager.toggleMute(pagePlayer.lastSound.id);
+    	    } else if (code == 110 || code == 106) {        // n, j
+                pagePlayer.playNext();
+    	    } else if (code == 107) {                       // m
+                pagePlayer.playPrevious();
+            } else if (code == 120) {                       // x
+                soundManager.stopAll();
+            } else if (code == 118) {                       // v
+                soundManager.play(pagePlayer.lastSound.id);
+    	    } else if (code == 44 ||
+    	               code == 91 || code == 123) {         // [, {
+    	        var pos = pagePlayer.lastSound.position;
+    	        //$.sticky(pos);
+    	        if (code == 44)         { pos -= 1000;         // jump behind 1  seconds for ,
+    	        } else if (code == 123) { pos -= 5000;      // jump behind 5  seconds for {
+    	        } else                  { pos -= 30000; }   // jump behind 30 seconds for [
+    	        if (pos < 0) { pos = 0; }
+    	        //$.sticky(pos);
+    	        soundManager.setPosition(pagePlayer.lastSound.id, pos);
+    	    } else if (code == 46 ||
+    	               code == 93 || code == 125) {         // , ] }
+    	        var pos = pagePlayer.lastSound.position;
+    	        //$.sticky(pos);
+    	        if (code == 46)         { pos += 1000;         // jump ahead 1  seconds for .
+    	        } else if (code == 125) { pos += 5000;      // jump ahead 5  seconds for }
+    	        } else                  { pos += 30000; }   // jump ahead 30 seconds for ]
+    	        //$.sticky(pos);
+                if (pagePlayer.lastSound.loaded == false) {
+    	            if (pos > pagePlayer.lastSound.durationEstimate) { pos = pagePlayer.lastSound.durationEstimate; }
+    	        } else {
+    	            if (pos > pagePlayer.lastSound.duration)         { pos = pagePlayer.lastSound.duration; }
+    	        }
+    	        soundManager.setPosition(pagePlayer.lastSound.id, pos);
+     	    } else if (code == 115) {   // s
+                $.sticky('s'); //TODO implement shuffle here
+    	    }
+    	});
     });
     </script>
 </head>
