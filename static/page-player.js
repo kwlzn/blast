@@ -70,6 +70,7 @@ function PagePlayer() {
   this.lastWLExec = new Date();
   this.vuMeterData = [];
   this.oControls = null;
+  this.shuffle = false;
 
   this._mergeObjects = function(oMain,oAdd) {
     // non-destructive merge
@@ -298,15 +299,17 @@ function PagePlayer() {
   };
 
   this.playNext = function(oSound) {
-    if (!oSound) {
-      oSound = self.lastSound;
+    if (!oSound) { oSound = self.lastSound; }
+    if (!oSound) { return false; }
+    if (self.shuffle) {
+        var urlz = pl.getByClassName('playlist', 'ul')[0].getElementsByTagName('a'); // TODO: only works on first playlist container
+        var randomIndex = Math.floor( Math.random()*0.9999999999999999*(0 - (urlz.length+1) + 1)+(urlz.length+1) ) - 1;
+        var nextItem = urlz[randomIndex];
+    } else {
+        var nextItem = self.getNextItem(oSound._data.oLI);
     }
-    if (!oSound) {
-      return false;
-    }
-    var nextItem = self.getNextItem(oSound._data.oLI);
     if (nextItem) {
-      pl.handleClick({target:nextItem}); // fake a click event - aren't we sneaky. ;)
+        pl.handleClick({target:nextItem}); // fake a click event - aren't we sneaky. ;)
     }
     return nextItem;
   };
@@ -328,7 +331,6 @@ function PagePlayer() {
   this.events = {
 
     // handlers for sound events as they're started/stopped/played
-
     play: function() {
       pl.removeClass(this._data.oLI,this._data.className);
       this._data.className = pl.css.sPlaying;

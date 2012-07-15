@@ -6,13 +6,13 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='page-player.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='flashblock.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='sticky.css') }}">
-    <link rel>
     <script src="{{ url_for('static', filename='sm2.js') }}"></script>
     <script src="{{ url_for('static', filename='page-player.js') }}"></script>
     <script src="{{ url_for('static', filename='jquery-1.7.2.min.js') }}"></script>
     <script src="{{ url_for('static', filename='jquery.shuffle.js') }}"></script>
     <script src="{{ url_for('static', filename='sticky.js') }}"></script>
     <script type="text/javascript">
+    // Initialize soundManager2
     soundManager.setup({
         flashVersion: 9,
         useHTML5Audio: true,
@@ -21,42 +21,47 @@
         wmode: 'transparent',
         url: '{{ url_for('static', filename='swf') }}'
     });
-
+    
+    // Setup keyboard shortcuts
     jQuery(function($){
     	$('body').keypress(function(e){
     	    var code = (e.keyCode ? e.keyCode : e.which);
-    	    $('div#notifications').html(code);
+    	    //$('div#notifications').html(code);
+    	    $.sticky('keycode: ' + code);
     	    // ref: http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
     	    if (code == 114) {                              // r 
-    	        $.sticky('<b>Randomizing!</b>');
+    	        $.sticky('randomizing!');
     	        $('ul').shuffle();
-    	    } else if (code == 99) {                        // c
+    	    } else if (code ==  99) {                       // c
     	        soundManager.togglePause(pagePlayer.lastSound.id);
     	    } else if (code == 109) {                       // m
     	        soundManager.toggleMute(pagePlayer.lastSound.id);
     	    } else if (code == 110 || code == 106) {        // n, j
                 pagePlayer.playNext();
-    	    } else if (code == 107) {                       // m
+                $.scrollTo('#sm2_playing');
+    	    } else if (code == 107) {                       // k
                 pagePlayer.playPrevious();
             } else if (code == 120) {                       // x
                 soundManager.stopAll();
             } else if (code == 118) {                       // v
                 soundManager.play(pagePlayer.lastSound.id);
-    	    } else if (code == 44 ||
+     	    } else if (code ==  48) {                       // 0
+                soundManager.setPosition(pagePlayer.lastSound.id, 0);
+    	    } else if (code == 44 ||                        // ,
     	               code == 91 || code == 123) {         // [, {
     	        var pos = pagePlayer.lastSound.position;
     	        //$.sticky(pos);
-    	        if (code == 44)         { pos -= 1000;         // jump behind 1  seconds for ,
+    	        if (code == 44)         { pos -= 1000;      // jump behind 1  seconds for ,
     	        } else if (code == 123) { pos -= 5000;      // jump behind 5  seconds for {
     	        } else                  { pos -= 30000; }   // jump behind 30 seconds for [
     	        if (pos < 0) { pos = 0; }
     	        //$.sticky(pos);
     	        soundManager.setPosition(pagePlayer.lastSound.id, pos);
-    	    } else if (code == 46 ||
-    	               code == 93 || code == 125) {         // , ] }
+    	    } else if (code == 46 ||                        // .
+    	               code == 93 || code == 125) {         // ], }
     	        var pos = pagePlayer.lastSound.position;
     	        //$.sticky(pos);
-    	        if (code == 46)         { pos += 1000;         // jump ahead 1  seconds for .
+    	        if (code == 46)         { pos += 1000;      // jump ahead 1  seconds for .
     	        } else if (code == 125) { pos += 5000;      // jump ahead 5  seconds for }
     	        } else                  { pos += 30000; }   // jump ahead 30 seconds for ]
     	        //$.sticky(pos);
@@ -66,15 +71,16 @@
     	            if (pos > pagePlayer.lastSound.duration)         { pos = pagePlayer.lastSound.duration; }
     	        }
     	        soundManager.setPosition(pagePlayer.lastSound.id, pos);
-     	    } else if (code == 115) {   // s
-                $.sticky('s'); //TODO implement shuffle here
+     	    } else if (code == 115) {                      // s
+                if (pagePlayer.shuffle == true) { pagePlayer.shuffle = false; }
+                else                            { pagePlayer.shuffle = true; }
     	    }
     	});
     });
     </script>
 </head>
 <body>
-    <div id="notifications"></div>
+    <div id="control" height="40" width="100%"></div>
     <ul class="playlist">
     {% for entry in entries %}
         <li><a href="/play/{{ entry.file_name|safe }}">{{ entry.name }}</a></li>
