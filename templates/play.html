@@ -28,64 +28,59 @@
     
     // Setup keyboard shortcuts
     jQuery(function($){
-    	$('body').keypress(function(e){
-    	    var code = (e.keyCode ? e.keyCode : e.which);
-    	    //$('div#notifications').html(code);
-    	    $.sticky('keycode: ' + code);
-    	    // ref: http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
-    	    if (code == 114) {                              // r 
-    	        $.sticky('randomizing!');
-    	        $('ul').shuffle();
-    	    } else if (code ==  99) {                       // c
-    	        soundManager.togglePause(pagePlayer.lastSound.id);
-    	    } else if (code == 109) {                       // m
-    	        soundManager.toggleMute(pagePlayer.lastSound.id);
-    	    } else if (code == 110 || code == 106) {        // n, j
+        $('body').keypress(function(e){
+            var code = (e.keyCode ? e.keyCode : e.which);
+            //$('div#notifications').html(code);
+            $.sticky('keycode: ' + code);
+            // ref: http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
+            if (code == 114) {                              // r (randomize list)
+                $.sticky('randomizing!');
+                $('ul').shuffle();
+            } else if (code ==  99) {                       // c (toggle pause)
+                soundManager.togglePause(pagePlayer.lastSound.id);
+            } else if (code == 109) {                       // m (toggle mute)
+                soundManager.toggleMute(pagePlayer.lastSound.id);
+            } else if (code == 110 || code == 106) {        // n, j (next track)
                 pagePlayer.playNext();
-                //$('html, body').animate({ scrollTop: $('ul.playlist li.sm2_playing').position().top }, 'fast');
-                //$('html, body').scrollTop($('ul.playlist li.sm2_playing').position().top);
-    	    } else if (code == 107) {                       // k
-                pagePlayer.playPrevious();
-                //$('html, body').animate({ scrollTop: $('ul.playlist li.sm2_playing').position().top }, 'fast');
-            } else if (code == 120) {                       // x
+            } else if (code == 107) {                       // k (prev track)
+                if (!pagePlayer.shuffle) { pagePlayer.playPrevious(); }
+            } else if (code == 120) {                       // x (stop)
                 soundManager.stopAll();
-            } else if (code == 118) {                       // v
+            } else if (code == 118) {                       // v (play)
                 if (pagePlayer.lastSound) {
                     soundManager.play(pagePlayer.lastSound.id);
                 } else {
                     pagePlayer.startPlay();
                 }
-     	    } else if (code ==  48) {                       // 0
-     	        if (pagePlayer.lastSound) { soundManager.setPosition(pagePlayer.lastSound.id, 0); }
-    	    } else if (code == 44 ||                        // ,
-    	               code == 91 || code == 123) {         // [, {
-    	        var pos = pagePlayer.lastSound.position;
-    	        //$.sticky(pos);
-    	        if (code == 44)         { pos -= 1000;      // jump behind 1  seconds for ,
-    	        } else if (code == 123) { pos -= 5000;      // jump behind 5  seconds for {
-    	        } else                  { pos -= 30000; }   // jump behind 30 seconds for [
-    	        if (pos < 0) { pos = 0; }
-    	        //$.sticky(pos);
-    	        soundManager.setPosition(pagePlayer.lastSound.id, pos);
-    	    } else if (code == 46 ||                        // .
-    	               code == 93 || code == 125) {         // ], }
-    	        var pos = pagePlayer.lastSound.position;
-    	        //$.sticky(pos);
-    	        if (code == 46)         { pos += 1000;      // jump ahead 1  seconds for .
-    	        } else if (code == 125) { pos += 5000;      // jump ahead 5  seconds for }
-    	        } else                  { pos += 30000; }   // jump ahead 30 seconds for ]
-    	        //$.sticky(pos);
+            } else if (code ==  48) {                       // 0 (reset trackhead to 0)
+                if (pagePlayer.lastSound) { soundManager.setPosition(pagePlayer.lastSound.id, 0); }
+            } else if (code == 44 ||                        // , 
+                       code == 91 || code == 123) {         // [, { (skip behind)
+                var pos = pagePlayer.lastSound.position;
+                //$.sticky(pos);
+                if (code == 44)         { pos -= 1000;      // jump behind 1  seconds for ,
+                } else if (code == 123) { pos -= 5000;      // jump behind 5  seconds for {
+                } else                  { pos -= 30000; }   // jump behind 30 seconds for [
+                if (pos < 0) { pos = 0; }
+                //$.sticky(pos);
+                soundManager.setPosition(pagePlayer.lastSound.id, pos);
+            } else if (code == 46 ||                        // .
+                       code == 93 || code == 125) {         // ], } (skip ahead)
+                var pos = pagePlayer.lastSound.position;
+                if (code == 46)         { pos += 1000;      // jump ahead 1  seconds for .
+                } else if (code == 125) { pos += 5000;      // jump ahead 5  seconds for }
+                } else                  { pos += 30000; }   // jump ahead 30 seconds for ]
                 if (pagePlayer.lastSound.loaded == false) {
-    	            if (pos > pagePlayer.lastSound.durationEstimate) { pos = pagePlayer.lastSound.durationEstimate; }
-    	        } else {
-    	            if (pos > pagePlayer.lastSound.duration)         { pos = pagePlayer.lastSound.duration; }
-    	        }
-    	        soundManager.setPosition(pagePlayer.lastSound.id, pos);
-     	    } else if (code == 115) {                      // s
+                    if (pos > pagePlayer.lastSound.durationEstimate) { pos = pagePlayer.lastSound.durationEstimate; }
+                } else {
+                    if (pos > pagePlayer.lastSound.duration)         { pos = pagePlayer.lastSound.duration; }
+                }
+                soundManager.setPosition(pagePlayer.lastSound.id, pos);
+            } else if (code == 115) {                      // s
                 if (pagePlayer.shuffle == true) { pagePlayer.shuffle = false; }
                 else                            { pagePlayer.shuffle = true; }
-    	    }
-    	});
+            }
+        });
     });
     </script>
 </head>
