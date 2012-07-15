@@ -6,20 +6,24 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='page-player.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='flashblock.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='sticky.css') }}">
-    <script src="{{ url_for('static', filename='sm2.js') }}"></script>
-    <script src="{{ url_for('static', filename='page-player.js') }}"></script>
     <script src="{{ url_for('static', filename='jquery-1.7.2.min.js') }}"></script>
     <script src="{{ url_for('static', filename='jquery.shuffle.js') }}"></script>
     <script src="{{ url_for('static', filename='sticky.js') }}"></script>
+    <script src="{{ url_for('static', filename='sm2.js') }}"></script>
+    <script src="{{ url_for('static', filename='page-player.js') }}"></script>
     <script type="text/javascript">
     // Initialize soundManager2
-    soundManager.setup({
-        flashVersion: 9,
-        useHTML5Audio: true,
-        preferFlash: false,
-        useHighPerformance: true,
-        wmode: 'transparent',
-        url: '{{ url_for('static', filename='swf') }}'
+    $(document).ready(function() {
+        soundManager.setup({
+            flashVersion: 9,
+            useHTML5Audio: true,
+            preferFlash: false,
+            useHighPerformance: true,
+            wmode: 'transparent',
+            url: '{{ url_for('static', filename='swf') }}'
+        });
+        
+        initPagePlayer();
     });
     
     // Setup keyboard shortcuts
@@ -38,17 +42,21 @@
     	        soundManager.toggleMute(pagePlayer.lastSound.id);
     	    } else if (code == 110 || code == 106) {        // n, j
                 pagePlayer.playNext();
-                $('html, body').animate({ scrollTop: $('ul.playlist li.sm2_playing').position().top }, 'fast');
+                //$('html, body').animate({ scrollTop: $('ul.playlist li.sm2_playing').position().top }, 'fast');
                 //$('html, body').scrollTop($('ul.playlist li.sm2_playing').position().top);
     	    } else if (code == 107) {                       // k
                 pagePlayer.playPrevious();
-                $('html, body').animate({ scrollTop: $('ul.playlist li.sm2_playing').position().top }, 'fast');
+                //$('html, body').animate({ scrollTop: $('ul.playlist li.sm2_playing').position().top }, 'fast');
             } else if (code == 120) {                       // x
                 soundManager.stopAll();
             } else if (code == 118) {                       // v
-                soundManager.play(pagePlayer.lastSound.id);
+                if (pagePlayer.lastSound) {
+                    soundManager.play(pagePlayer.lastSound.id);
+                } else {
+                    pagePlayer.startPlay();
+                }
      	    } else if (code ==  48) {                       // 0
-                soundManager.setPosition(pagePlayer.lastSound.id, 0);
+     	        if (pagePlayer.lastSound) { soundManager.setPosition(pagePlayer.lastSound.id, 0); }
     	    } else if (code == 44 ||                        // ,
     	               code == 91 || code == 123) {         // [, {
     	        var pos = pagePlayer.lastSound.position;
@@ -81,6 +89,7 @@
     });
     </script>
 </head>
+
 <body>
     <div id="control" height="40" width="100%"></div>
     <ul class="playlist">

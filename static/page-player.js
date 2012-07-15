@@ -71,6 +71,7 @@ function PagePlayer() {
   this.vuMeterData = [];
   this.oControls = null;
   this.shuffle = false;
+  this.useFlashBlock = true;
 
   this._mergeObjects = function(oMain,oAdd) {
     // non-destructive merge
@@ -329,6 +330,16 @@ function PagePlayer() {
     }
   };
 
+  // http://stackoverflow.com/questions/487073/jquery-check-if-element-is-visible-after-scrolling
+  this.isVisible = function(elem) {
+      var docViewTop, docViewBottom, elemTop, elemBottom;
+      docViewTop = $(window).scrollTop();
+      docViewBottom = docViewTop + $(window).height();
+      elemTop = $(elem).offset().top;
+      elemBottom = elemTop + $(elem).height();
+      return ( (elemBottom >= docViewTop) && (elemTop <= docViewBottom) && (elemBottom <= docViewBottom) && (elemTop >= docViewTop) );
+  };
+
   this.events = {
 
     // handlers for sound events as they're started/stopped/played
@@ -337,6 +348,10 @@ function PagePlayer() {
       this._data.className = pl.css.sPlaying;
       pl.addClass(this._data.oLI,this._data.className);
       self.setPageTitle(this._data.originalTitle);
+      // use jQuery to animate scrolling to the currently played item if it's not visible
+      if (!pl.isVisible('ul.playlist li.sm2_playing')) {
+          $('html, body').animate({ scrollTop: $('ul.playlist li.sm2_playing').position().top }, 'fast');
+      }
     },
 
     stop: function() {
@@ -794,11 +809,8 @@ function PagePlayer() {
  
   this.setPosition = function(e) {
     // called from slider control
-    var oThis = self.getTheDamnTarget(e),
-        x, oControl, oSound, nMsecOffset;
-    if (!oThis) {
-      return true;
-    }
+    var oThis = self.getTheDamnTarget(e), x, oControl, oSound, nMsecOffset;
+    if (!oThis) { return true; }
     oControl = oThis;
     while (!self.hasClass(oControl,'controls') && oControl.parentNode) {
       oControl = oControl.parentNode;
@@ -904,6 +916,10 @@ function PagePlayer() {
     }
     // assume we're all good.
     return c;
+  };
+
+  this.startPlay = function() {
+      pl.handleClick({target:pl.getByClassName('playlist', 'ul')[0].getElementsByTagName('a')[0]});
   };
 
   this.initItem = function(oNode) {
@@ -1060,21 +1076,16 @@ function PagePlayer() {
     };
 
     doEvents('add');
-
     sm._writeDebug('pagePlayer.init(): Ready',1);
 
     if (self.config.autoStart) {
-      // grab the first ul.playlist link
-      pl.handleClick({target:pl.getByClassName('playlist', 'ul')[0].getElementsByTagName('a')[0]});
+      pl.startPlay();
     }
-
   };
 
 }
 
-soundManager.useFlashBlock = true;
-
-soundManager.onready(function() {
-  pagePlayer = new PagePlayer();
-  pagePlayer.init(typeof PP_CONFIG !== 'undefined' ? PP_CONFIG : null);
-});
+function initPagePlayer(){
+    pagePlayer = new PagePlayer();
+    pagePlayer.init(typeof PP_CONFIG !== 'undefined' ? PP_CONFIG : null);
+}
