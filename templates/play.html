@@ -38,9 +38,11 @@
     	        soundManager.toggleMute(pagePlayer.lastSound.id);
     	    } else if (code == 110 || code == 106) {        // n, j
                 pagePlayer.playNext();
-                $.scrollTo('#sm2_playing');
+                $('html, body').animate({ scrollTop: $('ul.playlist li.sm2_playing').position().top }, 'fast');
+                //$('html, body').scrollTop($('ul.playlist li.sm2_playing').position().top);
     	    } else if (code == 107) {                       // k
                 pagePlayer.playPrevious();
+                $('html, body').animate({ scrollTop: $('ul.playlist li.sm2_playing').position().top }, 'fast');
             } else if (code == 120) {                       // x
                 soundManager.stopAll();
             } else if (code == 118) {                       // v

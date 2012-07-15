@@ -301,12 +301,13 @@ function PagePlayer() {
   this.playNext = function(oSound) {
     if (!oSound) { oSound = self.lastSound; }
     if (!oSound) { return false; }
+    var urlz, randomIndex, nextItem;
     if (self.shuffle) {
-        var urlz = pl.getByClassName('playlist', 'ul')[0].getElementsByTagName('a'); // TODO: only works on first playlist container
-        var randomIndex = Math.floor( Math.random()*0.9999999999999999*(0 - (urlz.length+1) + 1)+(urlz.length+1) ) - 1;
-        var nextItem = urlz[randomIndex];
+        urlz = pl.getByClassName('playlist', 'ul')[0].getElementsByTagName('a'); // TODO: only works on first playlist container
+        randomIndex = Math.floor( Math.random()*0.9999999999999999*(0 - (urlz.length+1) + 1)+(urlz.length+1) ) - 1;
+        nextItem = urlz[randomIndex];
     } else {
-        var nextItem = self.getNextItem(oSound._data.oLI);
+        nextItem = self.getNextItem(oSound._data.oLI);
     }
     if (nextItem) {
         pl.handleClick({target:nextItem}); // fake a click event - aren't we sneaky. ;)
