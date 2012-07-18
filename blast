@@ -87,7 +87,31 @@ def usage(bail=False):
           '''
     if bail: sys.exit(0)
 
+def run_as_daemon(func, *args, **kwargs):
+    ## retain cwd (our basedir)
+    cwd = os.getcwd()
+    ## double fork
+    pid = os.fork()
+    if (pid == 0):
+        os.setsid()
+        pid = os.fork()
+        if (pid == 0):
+            ## forked twice and ready to run
+            print 'pid: %s, cwd: %s' % (os.getpid(), cwd)
+            os.chdir(cwd)
+            os.umask(0)
+            sys.stdout.flush(), sys.stderr.flush(), sys.stdin.close()
+            ## TODO: do something with stdout/err
+            func(*args, **kwargs)
+        else:
+            os._exit(0)
+    else:
+        os._exit(0)
+    return
+
 if __name__ == '__main__':
     if '-h' in sys.argv or '--help' in sys.argv: usage(bail=True)
     host = '0.0.0.0' if ('-x' in sys.argv) else '127.0.0.1'
-    app.run(host=host)
+    
+    if '-d' in sys.argv: run_as_daemon(app.run, **{'host': host})
+    else:                app.run(host=host)
