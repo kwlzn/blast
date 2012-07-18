@@ -16,3 +16,33 @@ h2              { font-size: 1.2em; }
 .flash          { background: #CEE5F5; padding: 0.5em;
                   border: 1px solid #AACBE2; }
 .error          { background: #F0D6D6; padding: 0.5em; }
+
+#modal-background {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: black;
+    opacity: .30;
+    -webkit-opacity: .3;
+    -moz-opacity: .3;
+    filter: alpha(opacity=30);
+    z-index: 1000;
+}
+
+#modal-content {
+    background-color: white;
+    display: none;
+    height: 350px;
+    width: 480px;
+    margin: -200px 0 0 -240px;
+    padding: 25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1000;
+}
+
+#modal-background.active, #modal-content.active {
+    display: block;
+}

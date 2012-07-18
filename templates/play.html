@@ -35,9 +35,11 @@
             //$('div#notifications').html(code);
             if (keyPressDebug) { $.sticky('keycode: ' + code); }
             // ref: http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
-            if (code == 114) {                              // r (randomize list)
-                $.sticky('randomizing!');
-                $('ul').shuffle();
+            if (code == 63) {                               // ? (help)
+                $('#modal-background').toggleClass('active');
+                $('#modal-content').toggleClass('active');
+            } else if (code == 13)  {                       // enter (select track)
+                $.sticky('enter')
             } else if (code ==  99) {                       // c (toggle pause)
                 soundManager.togglePause(pagePlayer.lastSound.id);
                 $.sticky('toggling pause');
@@ -45,9 +47,15 @@
                 $.sticky('toggling debug');
                 keyPressDebug = keyPressDebug ? false : true;
                 //if (keyPressDebug) { keyPressDebug = false; } else { keyPressDebug = true; }
+            } else if (code == 107) {                       // k (prev track)
+                $.sticky('play prev track');
+                if (!pagePlayer.shuffle) { pagePlayer.playPrevious(); }
             } else if (code == 109) {                       // m (toggle mute)
                 $.sticky('toggling mute');
                 soundManager.toggleMute(pagePlayer.lastSound.id);
+            } else if (code == 114) {                       // r (randomize list)
+                $.sticky('randomizing!');
+                $('ul').shuffle();
             } else if (code == 115) {                       // s (toggle shuffle)
                 $.sticky('toggle shuffle');
                 if (pagePlayer.shuffle == true) { pagePlayer.shuffle = false; }
@@ -55,9 +63,6 @@
             } else if (code == 110 || code == 106) {        // n, j (next track)
                 $.sticky('play next track');
                 pagePlayer.playNext();
-            } else if (code == 107) {                       // k (prev track)
-                $.sticky('play prev track');
-                if (!pagePlayer.shuffle) { pagePlayer.playPrevious(); }
             } else if (code == 120) {                       // x (stop)
                 $.sticky('stop');
                 soundManager.stopAll();
@@ -104,6 +109,32 @@
 
 <body>
     <div id="control" height="40" width="100%"></div>
+    <div id="modal-background"></div>
+    <div id="modal-content">
+        <p><h2><a href="http://github.com/kwlzn/blast"><pre>blast</pre></a></h2></p>
+        <p><pre class="help">
+            key reference:
+            
+                v         Play
+                c         Toggle Pause
+                x         Stop
+                n j       Next Track
+                k         Previous Track
+
+                ,.        Rewind or Skip Ahead 1 second
+                []        Rewind or Skip Ahead 5 seconds
+                {}        Rewind or Skip Ahead 30 seconds
+                0         Reset to 0 position
+
+                s         Toggle Shuffle
+                m         Toggle Mute
+                ?         Toggle Help
+                
+                r         Randomize List
+                d         Debug Mode
+            </pre>
+        </p>
+    </div>
     <ul class="playlist">
     {% for entry in entries %}
         <li><a href="/play/{{ entry.file_name|safe }}">{{ entry.name }}</a></li>
