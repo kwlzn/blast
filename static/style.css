@@ -34,12 +34,12 @@ h2              { font-size: 1.2em; }
     background-color: white;
     display: none;
     height: 350px;
-    width: 480px;
     margin: -200px 0 0 -240px;
     padding: 25px;
     position: absolute;
     top: 50%;
     left: 50%;
+    width: 480px;
     z-index: 1000;
 }
 
