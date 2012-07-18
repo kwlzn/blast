@@ -2,8 +2,10 @@
  [x] initial release
 
 trunk/0.2
+ [x] add key commands for controlling player (minimal ui)
  [x] streaming load (optimize for speed/ux) - http://flask.pocoo.org/docs/patterns/streaming/
  [x] make shuffling refocus nextTrack item and scroll window
+ [x] add help screen
  [ ] make prev track work in shuffle mode
  [x] iOS testing/support
      [ ] need to fix progress meter updates on iOS/safari

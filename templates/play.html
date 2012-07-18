@@ -35,7 +35,7 @@
             //$('div#notifications').html(code);
             if (keyPressDebug) { $.sticky('keycode: ' + code); }
             // ref: http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
-            if (code == 63) {                               // ? (help)
+            if (code == 63) {                               // ? (toggle help)
                 $('#modal-background').toggleClass('active');
                 $('#modal-content').toggleClass('active');
             } else if (code == 13)  {                       // enter (select track)
@@ -44,9 +44,8 @@
                 soundManager.togglePause(pagePlayer.lastSound.id);
                 $.sticky('toggling pause');
             } else if (code == 100) {                       // d (toggle debug)
-                $.sticky('toggling debug');
                 keyPressDebug = keyPressDebug ? false : true;
-                //if (keyPressDebug) { keyPressDebug = false; } else { keyPressDebug = true; }
+                $.sticky('debug:'+keyPressDebug);
             } else if (code == 107) {                       // k (prev track)
                 $.sticky('play prev track');
                 if (!pagePlayer.shuffle) { pagePlayer.playPrevious(); }
@@ -57,9 +56,9 @@
                 $.sticky('randomizing!');
                 $('ul').shuffle();
             } else if (code == 115) {                       // s (toggle shuffle)
-                $.sticky('toggle shuffle');
                 if (pagePlayer.shuffle == true) { pagePlayer.shuffle = false; }
                 else                            { pagePlayer.shuffle = true; }
+                $.sticky('shuffle: '+pagePlayer.shuffle);
             } else if (code == 110 || code == 106) {        // n, j (next track)
                 $.sticky('play next track');
                 pagePlayer.playNext();
@@ -86,7 +85,7 @@
                 } else if (code == 123) { pos -= 5000;      // jump behind 5  seconds for {
                 } else                  { pos -= 30000; }   // jump behind 30 seconds for [
                 if (pos < 0) { pos = 0; }
-                $.sticky('skip: '+pos);
+                $.sticky('rewind: '+((pos-pagePlayer.lastSound.position)/1000)+'s');
                 soundManager.setPosition(pagePlayer.lastSound.id, pos);
             } else if (code == 46 ||                        // .
                        code == 93 || code == 125) {         // ], } (skip ahead)
@@ -99,7 +98,7 @@
                 } else {
                     if (pos > pagePlayer.lastSound.duration)         { pos = pagePlayer.lastSound.duration; }
                 }
-                $.sticky('rewind: '+pos);
+                $.sticky('skip: +'+((pos-pagePlayer.lastSound.position)/1000)+'s');
                 soundManager.setPosition(pagePlayer.lastSound.id, pos);
             }
         });
@@ -111,27 +110,27 @@
     <div id="control" height="40" width="100%"></div>
     <div id="modal-background"></div>
     <div id="modal-content">
-        <p><h2><a href="http://github.com/kwlzn/blast"><pre>blast</pre></a></h2></p>
+        <pre><h3><a href="http://github.com/kwlzn/blast">blast</a></h3><h3>key commands</h3></pre>
         <p><pre class="help">
-            key reference:
-            
-                v         Play
-                c         Toggle Pause
-                x         Stop
-                jk        Next / Previous Track
-                n         Next Track (same as j)
-                
-                ,.        Rewind or Skip Ahead 1 second
-                []        Rewind or Skip Ahead 5 seconds
-                {}        Rewind or Skip Ahead 30 seconds
-                0         Reset to 0 position
+            v         Play
+            c         Toggle Pause
+            x         Stop
+            jk        Next / Previous Track
+            n         Next Track (same as j)
+    
+            ,.        Reverse or Skip Ahead 1 second
+            {}        Reverse or Skip Ahead 5 seconds
+            []        Reverse or Skip Ahead 30 seconds
+            0         Reset to 0 position
 
-                s         Toggle Shuffle
-                m         Toggle Mute
-                ?         Toggle Help
+            s         Toggle Shuffle
+            m         Toggle Mute
+            ?         Toggle Help
+    
+            r         Randomize List
+            d         Debug Mode
                 
-                r         Randomize List
-                d         Debug Mode
+                <b>hit ? again to escape</b>
             </pre>
         </p>
     </div>
