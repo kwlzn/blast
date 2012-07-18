@@ -349,6 +349,10 @@ function PagePlayer() {
       pl.addClass(this._data.oLI,this._data.className);
       self.setPageTitle(this._data.originalTitle);
       // use jQuery to animate scrolling to the currently played item if it's not visible
+      //if (!pl.isVisible(this._data.oLI)) {
+      //      $(this._data.oLI).animate({ scrollTop: $(this._data.oLI).position().top }, 'fast');
+      //}
+      // alternative approach using jQuery selectors
       if (!pl.isVisible('ul.playlist li.sm2_playing')) {
           $('html, body').animate({ scrollTop: $('ul.playlist li.sm2_playing').position().top }, 'fast');
       }
@@ -363,9 +367,7 @@ function PagePlayer() {
     },
 
     pause: function() {
-      if (pl.dragActive) {
-        return false;
-      }
+      if (pl.dragActive) { return false; }
       pl.removeClass(this._data.oLI,this._data.className);
       this._data.className = pl.css.sPaused;
       pl.addClass(this._data.oLI,this._data.className);
@@ -374,9 +376,7 @@ function PagePlayer() {
     },
 
     resume: function() {
-      if (pl.dragActive) {
-        return false;
-      }
+      if (pl.dragActive) { return false; }
       pl.removeClass(this._data.oLI,this._data.className);
       this._data.className = pl.css.sPlaying;
       pl.addClass(this._data.oLI,this._data.className);

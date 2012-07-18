@@ -11,6 +11,7 @@ trunk/0.2
  [ ] fix seeking on OSX:chrome,safari - note this works fine on OSX:firefox and WIN32:chrome currently
 
 future/0.3
+ [ ] use databinding to reduce data size for larger lists; investigate album-based pagination
  [ ] figure out why 'MS5/jj - a jj 12_ (2009)_' is broken
  [ ] keep trying to load remaining tracks if some tracks 404
  [ ] dir->album containers

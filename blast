@@ -12,7 +12,8 @@ DEBUG      = True
 SECRET_KEY = 'ruxer'
 USERNAME   = 'admin'
 PASSWORD   = 'default'
-REPATH_MAP = { '/': '___' }
+REPATH_MAP = { '/': '___',
+               '#': '__h__' }
 
 app = Flask(__name__)
 app.config.from_object(__name__)
