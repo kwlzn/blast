@@ -68,7 +68,7 @@ def play():
 @app.route('/play/<filename>')
 def play_file(filename):
     filename = path_replace(filename, REPATH_MAP, reverse=True)
-    if os.path.splitext(s)[1].lower() not in ALLOWED_TYPES: return render_template('401.html'), 401
+    if os.path.splitext(filename)[1].lower() not in ALLOWED_TYPES: return render_template('401.html'), 401
     if not os.path.exists(filename): print 'ERROR: file "%s" doesn\'t exist' % filename
     base_dir, filename = os.path.dirname(filename), os.path.basename(filename)
     return send_from_directory(base_dir, filename)
