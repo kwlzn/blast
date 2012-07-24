@@ -10,8 +10,8 @@ trunk/0.2
  [x] fix seeking on OSX:chrome,safari (default to flash mode for now, which doesn't have this bug)
  [x] iOS testing - works, but uses html5 player which has seeking bug
  [x] add winamp style next/prev keybindings (next=b, prev=z)
+ [x] fix help screen positioning; using bootstrap-modal
  [ ] fix security hole: serving of non-mp3 files/outside of root dir + relative paths
- [ ] fix help screen positioning
 
 backlog
  [ ] make html5 player work with seeking, reenable preferflash: false

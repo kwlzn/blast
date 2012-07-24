@@ -2,18 +2,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
     <title>blast</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='page-player.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='flashblock.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap-modal.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='sticky.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <script src="{{ url_for('static', filename='jquery-1.7.2.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='jquery.shuffle.js') }}"></script>
-    <script src="{{ url_for('static', filename='sticky.js') }}"></script>
     <script src="{{ url_for('static', filename='sm2.js') }}"></script>
     <script src="{{ url_for('static', filename='page-player.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap-modal.js') }}"></script>
+    <script src="{{ url_for('static', filename='sticky.js') }}"></script>
+    <script src="{{ url_for('static', filename='jquery.shuffle.js') }}"></script>
     <script type="text/javascript">
     // Initialize soundManager2
     $(document).ready(function() {
+        $('div#helpmodal').hide()
+        
         soundManager.setup({
             flashVersion: 9,
             useHTML5Audio: true,
@@ -36,8 +40,7 @@
             if (keyPressDebug) { $.sticky('keycode: ' + code); }
             // ref: http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
             if (code == 63) {                               // ? (toggle help)
-                $('#modal-background').toggleClass('active');
-                $('#modal-content').toggleClass('active');
+                $('#helpmodal').modal('toggle');
             } else if (code == 13)  {                       // enter (select track)
                 $.sticky('enter')
             } else if (code ==  99) {                       // c (toggle pause)
@@ -50,6 +53,7 @@
                 $.sticky('toggling mute');
                 soundManager.toggleMute(pagePlayer.lastSound.id);
             } else if (code == 114) {                       // r (randomize list)
+                soundManager.stopAll();
                 $.sticky('randomizing!');
                 $('ul').shuffle();
             } else if (code == 115) {                       // s (toggle shuffle)
@@ -109,32 +113,34 @@
 
 <body>
     <div id="control" height="40" width="100%"></div>
-    <div id="modal-background"></div>
-    <div id="modal-content">
-        <pre><h3><a href="http://github.com/kwlzn/blast">blast</a></h3><h3>key commands</h3></pre>
-        <p><pre class="help">
-            v         Play
-            c         Toggle Pause
-            x         Stop
-            j k       Next / Previous Track (Google Reader style)
-            n         Next Track (same as j, Google Reader style)
-            b z       Next / Previous Track (Winamp Style)
+    <div class="modal hide" id="helpmodal">
+        <div class="modal-header">
+            <h3><a href="http://github.com/kwlzn/blast">blast</a> key commands</h3>
+        </div>
+        <div class="modal-body">
+            <p><pre class="help">
+                v         Play
+                c         Toggle Pause
+                x         Stop
+                j k       Next / Previous Track (Google Reader style)
+                n         Next Track (same as j, Google Reader style)
+                b z       Next / Previous Track (Winamp Style)
             
-            , .       Reverse or Skip Ahead 1 second
-            { }       Reverse or Skip Ahead 5 seconds
-            [ ]       Reverse or Skip Ahead 30 seconds
-            0         Reset to 0 position
+                , .       Reverse or Skip Ahead 1 second
+                { }       Reverse or Skip Ahead 5 seconds
+                [ ]       Reverse or Skip Ahead 30 seconds
+                0         Reset to 0 position
 
-            s         Toggle Shuffle
-            m         Toggle Mute
-            ?         Toggle Help
+                s         Toggle Shuffle
+                m         Toggle Mute
+                ?         Toggle Help
     
-            r         Randomize List
-            d         Debug Mode
+                r         Randomize List
+                d         Debug Mode
                 
-                <b>hit ? again to escape</b>
-            </pre>
-        </p>
+                </pre>
+            </p>
+        </div>
     </div>
     <ul class="playlist">
     {% for entry in entries %}
