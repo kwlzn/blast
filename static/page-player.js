@@ -348,10 +348,6 @@ function PagePlayer() {
       this._data.className = pl.css.sPlaying;
       pl.addClass(this._data.oLI,this._data.className);
       self.setPageTitle(this._data.originalTitle);
-      // use jQuery to animate scrolling to the currently played item if it's not visible
-      //if (!pl.isVisible(this._data.oLI)) {
-      //      $(this._data.oLI).animate({ scrollTop: $(this._data.oLI).position().top }, 'fast');
-      //}
       // alternative approach using jQuery selectors
       if (!pl.isVisible('ul.playlist li.sm2_playing')) {
           $('html, body').animate({ scrollTop: $('ul.playlist li.sm2_playing').position().top }, 'fast');
@@ -420,11 +416,9 @@ function PagePlayer() {
         var oTemp = this._data.oLI.getElementsByTagName('a')[0],
             oString = oTemp.innerHTML,
             oThis = this;
-        oTemp.innerHTML = oString+' <span style="font-size:0.5em"> | Load failed, d\'oh! '+(sm.sandbox.noRemote?' Possible cause: Flash sandbox is denying remote URL access.':(sm.sandbox.noLocal?'Flash denying local filesystem access':'404?'))+'</span>';
-        setTimeout(function(){
-          oTemp.innerHTML = oString;
-          // pl.events.finish.apply(oThis); // load next
-        },5000);
+        oTemp.innerHTML = '<font color="red">'+oString+'</font>'; //'<span style="font-size:0.5em"> | Load failed </span>';
+        //setTimeout(function(){ oTemp.innerHTML = oString; },5000);
+        pl.events.finish.apply(oThis); // load next
       } else {
         if (this._data.metadata) {
           this._data.metadata.refresh();

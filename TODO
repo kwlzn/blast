@@ -12,6 +12,7 @@ trunk/0.2
  [x] add winamp style next/prev keybindings (next=b, prev=z)
  [x] fix help screen positioning; using bootstrap-modal
  [x] fix serving of non-mp3 files/outside of root dir; use relative paths to cwd
+ [x] keep trying to load remaining tracks if a track 404's
 
 backlog
  [ ] markers / cue points
@@ -21,7 +22,6 @@ backlog
  [ ] make prev track work in shuffle mode
  [ ] figure out why 'MS5/jj - a jj 12_ (2009)_' is broken
  [ ] figure out a good way to automate testing of broken loads
- [ ] keep trying to load remaining tracks if a track 404's
  [ ] use databinding to reduce mem size for larger lists; investigate album-based pagination
  [ ] dir->album containers
      [ ] scan a dir, yank all .mp3 files into ordered list for playback
