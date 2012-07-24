@@ -6,16 +6,20 @@ trunk/0.2
  [x] streaming load (optimize for speed/ux) - http://flask.pocoo.org/docs/patterns/streaming/
  [x] make shuffling refocus nextTrack item and scroll window
  [x] add help screen
- [ ] make prev track work in shuffle mode
- [x] iOS testing/support
-     [ ] need to fix progress meter updates on iOS/safari
- [ ] fix security hole: streaming files outside of root dir
- [ ] fix seeking on OSX:chrome,safari - note this works fine on OSX:firefox and WIN32:chrome currently
+ [x] fix progress meter updates on Safari (default to flash mode for now, which doesn't have this bug)
+ [x] fix seeking on OSX:chrome,safari (default to flash mode for now, which doesn't have this bug)
+ [x] iOS testing - works, but uses html5 player which has seeking bug
+ [x] add winamp style next/prev keybindings (next=b, prev=z)
+ [ ] fix security hole: serving of non-mp3 files/outside of root dir + relative paths
+ [ ] fix help screen positioning
 
-future/0.3
- [ ] use databinding to reduce data size for larger lists; investigate album-based pagination
+backlog
+ [ ] make html5 player work with seeking, reenable preferflash: false
+ [ ] verify progress meter updates on iOS
+ [ ] make prev track work in shuffle mode
  [ ] figure out why 'MS5/jj - a jj 12_ (2009)_' is broken
  [ ] keep trying to load remaining tracks if some tracks 404
+ [ ] use databinding to reduce data size for larger lists; investigate album-based pagination
  [ ] dir->album containers
      [ ] scan a dir, yank all .mp3 files into ordered list for playback
      [ ] if it's an image, try to determine the front/back image art and display it
@@ -31,7 +35,7 @@ future/0.3
      [ ] syncronize IDv2,3 tags to filename
      [ ] ID tag reduction (2->3 etc)
  [ ] websockets/persistent conns for ui snappiness
- [ ] A-B looping
+ [ ] markers, A-B looping
  [ ] DJ-like mixing (see tracks as waveforms, scrub waveforms to cue point to play)
  [ ] service framework (offline scanning, indexing and other tasks)
  [ ] ui views for internal scanner/indexer state: 15,000/25,000 files scanned etc

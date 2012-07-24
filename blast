@@ -1,30 +1,34 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*- 
 #
-# blast it (re: http://www.youtube.com/watch?v=nTqEgbVEYJA)
+# blast
 #
 
 import os, sys
 from flask import Flask, Response, render_template, url_for, send_from_directory, stream_with_context
 from lib.scanner import DirScanner
 
+## Flask globals
 DEBUG      = True
 SECRET_KEY = 'ruxer'
 USERNAME   = 'admin'
 PASSWORD   = 'default'
-REPATH_MAP = { '/': '___',
-               '#': '__h__' }
+
+## Replacements for chars that don't pass easily in query strings
+REPATH_MAP    = { '/': '___',
+                  '#': '__h__' }
+ALLOWED_TYPES = ['.mp3', '.m4a']
 
 app = Flask(__name__)
 app.config.from_object(__name__)
 
+@app.errorhandler(401)
+def page_not_found(error): return render_template('401.html'), 401
+
 @app.errorhandler(404)
-def page_not_found(error):
-    return render_template('404.html'), 404
+def page_not_found(error): return render_template('404.html'), 404
 
 @app.errorhandler(500)
-def ise(error):
-    return render_template('500.html'), 500
+def ise(error): return render_template('500.html'), 500
 
 @app.route('/favicon.ico')
 def favicon():
@@ -49,7 +53,7 @@ def iterplayables():
     '''
     ls = DirScanner()
     ## filter out just mp3 files (and dirs to support recursion)
-    filt = lambda x: ( os.path.isdir(x) or x[-4:].lower() in ['.mp3', '.m4a'] )
+    filt = lambda x: ( os.path.isdir(x) or x[-4:].lower() in ALLOWED_TYPES )
     ## take the last two segments of the path as the label
     func = lambda x: '/'.join(x.split('/')[-2:])
     ## iterate over all the files (excluding dirs), filtering for .mp3 and .m4a
@@ -59,12 +63,13 @@ def iterplayables():
 
 @app.route('/')
 def play():
-    return Response( stream_template( 'play.html', entries=stream_with_context(iterplayables()) ) )
+    return Response( stream_template('play.html', entries=stream_with_context(iterplayables())) )
 
 @app.route('/play/<filename>')
 def play_file(filename):
     filename = path_replace(filename, REPATH_MAP, reverse=True)
-    if not os.path.exists(filename): print 'ERROR: %s doesn\'t exist' % filename
+    if os.path.splitext(s)[1].lower() not in ALLOWED_TYPES: return render_template('401.html'), 401
+    if not os.path.exists(filename): print 'ERROR: file "%s" doesn\'t exist' % filename
     base_dir, filename = os.path.dirname(filename), os.path.basename(filename)
     return send_from_directory(base_dir, filename)
 
@@ -84,6 +89,7 @@ def usage(bail=False):
               -------
                 -h        Print this help screen
                 -x        Run externally (otherwise binds only to localhost)
+                -d        Daemonize (run in background)
           '''
     if bail: sys.exit(0)
 
@@ -101,7 +107,7 @@ def run_as_daemon(func, *args, **kwargs):
             os.chdir(cwd)
             os.umask(0)
             sys.stdout.flush(), sys.stderr.flush(), sys.stdin.close()
-            ## TODO: do something with stdout/err
+            ## TODO: take log name argument to -d and write stdout/err to log
             func(*args, **kwargs)
         else:
             os._exit(0)

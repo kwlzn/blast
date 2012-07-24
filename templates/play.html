@@ -17,7 +17,7 @@
         soundManager.setup({
             flashVersion: 9,
             useHTML5Audio: true,
-            preferFlash: false,
+            preferFlash: true,
             useHighPerformance: true,
             wmode: 'transparent',
             url: '{{ url_for('static', filename='swf') }}'
@@ -46,9 +46,6 @@
             } else if (code == 100) {                       // d (toggle debug)
                 keyPressDebug = keyPressDebug ? false : true;
                 $.sticky('debug:'+keyPressDebug);
-            } else if (code == 107) {                       // k (prev track)
-                $.sticky('play prev track');
-                if (!pagePlayer.shuffle) { pagePlayer.playPrevious(); }
             } else if (code == 109) {                       // m (toggle mute)
                 $.sticky('toggling mute');
                 soundManager.toggleMute(pagePlayer.lastSound.id);
@@ -59,9 +56,13 @@
                 if (pagePlayer.shuffle == true) { pagePlayer.shuffle = false; }
                 else                            { pagePlayer.shuffle = true; }
                 $.sticky('shuffle: '+pagePlayer.shuffle);
-            } else if (code == 110 || code == 106) {        // n, j (next track)
+            } else if (code == 110 ||                      // n  (next track)
+                       code == 106 || code == 98) {        // j, b 
                 $.sticky('play next track');
                 pagePlayer.playNext();
+            } else if (code == 107 || code == 122) {       // k, z (prev track)
+                $.sticky('play prev track');
+                if (!pagePlayer.shuffle) { pagePlayer.playPrevious(); }
             } else if (code == 120) {                       // x (stop)
                 $.sticky('stop');
                 soundManager.stopAll();
@@ -115,12 +116,13 @@
             v         Play
             c         Toggle Pause
             x         Stop
-            jk        Next / Previous Track
-            n         Next Track (same as j)
-    
-            ,.        Reverse or Skip Ahead 1 second
-            {}        Reverse or Skip Ahead 5 seconds
-            []        Reverse or Skip Ahead 30 seconds
+            j k       Next / Previous Track (Google Reader style)
+            n         Next Track (same as j, Google Reader style)
+            b z       Next / Previous Track (Winamp Style)
+            
+            , .       Reverse or Skip Ahead 1 second
+            { }       Reverse or Skip Ahead 5 seconds
+            [ ]       Reverse or Skip Ahead 30 seconds
             0         Reset to 0 position
 
             s         Toggle Shuffle

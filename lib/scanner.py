@@ -99,11 +99,5 @@ class DirScanner(object):
 
 
 if __name__ == '__main__':
-    dirs = sys.argv[1:]
-    ls = DirScanner(os.getcwd())    
-    last = None
-    for x in ls.iterdupes():
-        if last != x[0]:
-            last = x[0]
-            print last
-        print '\t'+x[1]
+    ls = DirScanner(os.getcwd())
+    for item in ls.iteritems(): print item
