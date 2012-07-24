@@ -8,18 +8,21 @@ trunk/0.2
  [x] add help screen
  [x] fix progress meter updates on Safari (default to flash mode for now, which doesn't have this bug)
  [x] fix seeking on OSX:chrome,safari (default to flash mode for now, which doesn't have this bug)
- [x] iOS testing - works, but uses html5 player which has seeking bug
+ [x] iOS testing (using -x). works, but uses html5 player which has position/seeking update bug
  [x] add winamp style next/prev keybindings (next=b, prev=z)
  [x] fix help screen positioning; using bootstrap-modal
- [ ] fix security hole: serving of non-mp3 files/outside of root dir + relative paths
+ [x] fix serving of non-mp3 files/outside of root dir; use relative paths to cwd
 
 backlog
+ [ ] markers / cue points
+ [ ] A-B looping
  [ ] make html5 player work with seeking, reenable preferflash: false
  [ ] verify progress meter updates on iOS
  [ ] make prev track work in shuffle mode
  [ ] figure out why 'MS5/jj - a jj 12_ (2009)_' is broken
- [ ] keep trying to load remaining tracks if some tracks 404
- [ ] use databinding to reduce data size for larger lists; investigate album-based pagination
+ [ ] figure out a good way to automate testing of broken loads
+ [ ] keep trying to load remaining tracks if a track 404's
+ [ ] use databinding to reduce mem size for larger lists; investigate album-based pagination
  [ ] dir->album containers
      [ ] scan a dir, yank all .mp3 files into ordered list for playback
      [ ] if it's an image, try to determine the front/back image art and display it
@@ -34,8 +37,7 @@ backlog
      [ ] strip _'s, tags and other junk from directory and filenames to clean up your library
      [ ] syncronize IDv2,3 tags to filename
      [ ] ID tag reduction (2->3 etc)
- [ ] websockets/persistent conns for ui snappiness
- [ ] markers, A-B looping
+ [ ] websockets/persistent conns for snappiness
  [ ] DJ-like mixing (see tracks as waveforms, scrub waveforms to cue point to play)
  [ ] service framework (offline scanning, indexing and other tasks)
  [ ] ui views for internal scanner/indexer state: 15,000/25,000 files scanned etc

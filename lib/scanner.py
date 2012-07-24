@@ -5,10 +5,12 @@ import os, sys, hashlib
 BUF_SIZE = 1024*8
 
 class DirScanner(object):
-    def __init__(self, path=None):
-        if not path: path = os.getcwd()
+    def __init__(self, path=None, absolute=False, stripdot=False):
+        if not path: path = '.'
         if not os.path.exists(path): raise IOError('path %s doesn\'t exist' % path)
-        self.path = os.path.abspath(path)
+        self.path = os.path.abspath(path) if absolute else path
+        self.absolute = absolute
+        self.stripdot = stripdot
         return
     
     def md5sum(self, f):
@@ -43,8 +45,9 @@ class DirScanner(object):
             if f[0] == '.': continue
             
             ## f (filename) -> af (absolute filename)
-            af = os.path.abspath( os.path.join(iter_path, f) )
-
+            if self.absolute: af = os.path.abspath( os.path.join(iter_path, f) )
+            else:             af = os.path.join(iter_path, f)
+            
             ## filter out stuff we don't want
             if filt and not filt(af): continue
 
@@ -53,6 +56,7 @@ class DirScanner(object):
             
             ## return our main response
             if ( os.path.isfile(af) and want_files ) or ( os.path.isdir(af) and want_dirs ):
+                if self.stripdot and af[:2] == './': af = af[2:]
                 if func: yield ( func(af), af )
                 else:    yield af
             
@@ -65,7 +69,7 @@ class DirScanner(object):
                                         filt       = filt): yield x
     
     def iterdupes(self, compare=None, filt=None):
-        ''' streaming item iterator for duplicate files
+        ''' streaming item iterator with low overhead duplicate file detection
 
             Parameters:
                 - compare       compare function between files (defaults to md5sum)
@@ -99,5 +103,5 @@ class DirScanner(object):
 
 
 if __name__ == '__main__':
-    ls = DirScanner(os.getcwd())
+    ls = DirScanner()
     for item in ls.iteritems(): print item

@@ -51,7 +51,7 @@ def stream_template(template_name, **context):
 def iterplayables():
     ''' fast iterator of playable file object/dicts found on disk
     '''
-    ls = DirScanner()
+    ls = DirScanner(stripdot=True)
     ## filter out just mp3 files (and dirs to support recursion)
     filt = lambda x: ( os.path.isdir(x) or x[-4:].lower() in ALLOWED_TYPES )
     ## take the last two segments of the path as the label
@@ -65,13 +65,23 @@ def iterplayables():
 def play():
     return Response( stream_template('play.html', entries=stream_with_context(iterplayables())) )
 
-@app.route('/play/<filename>')
-def play_file(filename):
-    filename = path_replace(filename, REPATH_MAP, reverse=True)
-    if os.path.splitext(filename)[1].lower() not in ALLOWED_TYPES: return render_template('401.html'), 401
-    if not os.path.exists(filename): print 'ERROR: file "%s" doesn\'t exist' % filename
-    base_dir, filename = os.path.dirname(filename), os.path.basename(filename)
-    return send_from_directory(base_dir, filename)
+@app.route('/play/<file_str>')
+def play_file(file_str):
+    file_str = path_replace(file_str, REPATH_MAP, reverse=True)
+    ## block serving of all other file types (and subdirs via ..) for security reasons
+    if ( os.path.splitext(file_str)[1].lower() not in ALLOWED_TYPES or '../' in file_str ):
+        return render_template('401.html'), 401
+    
+    base_dir  = os.path.abspath(os.getcwd())
+    file_name = os.path.join(base_dir, file_str)
+    if not os.path.exists(file_name):
+        print 'ERROR: file "%s" doesnt exist' % file_name
+        return render_template('404.html'), 404
+    
+    dirname, basename = os.path.dirname(file_name), os.path.basename(file_name)
+    ## one more validation that the file we're serving is coming from cwd
+    if not dirname[:len(base_dir)] == base_dir: return render_template('401.html'), 401
+    return send_from_directory(dirname, basename)
 
 #@app.route('/dupes')
 #def dupes():
