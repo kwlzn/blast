@@ -1,7 +1,7 @@
 0.1
  [x] initial release
 
-trunk/0.2
+0.2
  [x] add key commands for controlling player (minimal ui)
  [x] streaming load (optimize for speed/ux) - http://flask.pocoo.org/docs/patterns/streaming/
  [x] make shuffling refocus nextTrack item and scroll window
@@ -14,7 +14,11 @@ trunk/0.2
  [x] fix serving of non-mp3 files/outside of root dir; use relative paths to cwd
  [x] keep trying to load remaining tracks if a track 404's
 
+trunk/0.3
+
+
 backlog
+ [ ] generate ids for files so we don't have to send back unicode bytes
  [ ] markers / cue points
  [ ] A-B looping
  [ ] make html5 player work with seeking, reenable preferflash: false

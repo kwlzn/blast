@@ -5,21 +5,19 @@
 
 import os, sys
 from flask import Flask, Response, render_template, url_for, send_from_directory, stream_with_context
-from lib.scanner import DirScanner
-
-## Flask globals
-DEBUG      = True
-SECRET_KEY = 'ruxer'
-USERNAME   = 'admin'
-PASSWORD   = 'default'
+from blast.scanner import DirScanner
 
 ## Replacements for chars that don't pass easily in query strings
 REPATH_MAP    = { '/': '___',
                   '#': '__h__' }
 ALLOWED_TYPES = ['.mp3', '.m4a']
 
+## Initialize flask
 app = Flask(__name__)
-app.config.from_object(__name__)
+app.config['DEBUG']      = True
+app.config['SECRET_KEY'] = 'blast'
+app.config['USERNAME']   = 'admin'
+app.config['PASSWORD']   = 'blastadmin'
 
 @app.errorhandler(401)
 def page_not_found(error): return render_template('401.html'), 401
@@ -125,9 +123,12 @@ def run_as_daemon(func, *args, **kwargs):
         os._exit(0)
     return
 
-if __name__ == '__main__':
+def main():
     if '-h' in sys.argv or '--help' in sys.argv: usage(bail=True)
     host = '0.0.0.0' if ('-x' in sys.argv) else '127.0.0.1'
     
     if '-d' in sys.argv: run_as_daemon(app.run, **{'host': host})
     else:                app.run(host=host)
+
+if __name__ == '__main__':
+    main()
