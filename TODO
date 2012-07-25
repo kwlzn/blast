@@ -15,7 +15,8 @@
  [x] keep trying to load remaining tracks if a track 404's
 
 trunk/0.3
-
+ [x] make installable via python easy_install for quick setup
+ [ ] fix modal visibility problem on start
 
 backlog
  [ ] generate ids for files so we don't have to send back unicode bytes
