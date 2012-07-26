@@ -16,8 +16,8 @@
 
 trunk/0.3
  [x] make installable via python easy_install for quick setup
+ [x] fix README formatting problems
  [ ] fix modal visibility problem on start
- [ ] fix README formatting problems
  
 backlog
  [ ] generate ids for files so we don't have to send back unicode in query strings

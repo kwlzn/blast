@@ -1,4 +1,3 @@
-=====
 blast
 =====
 
@@ -11,7 +10,11 @@ blast is a simple web-based, multi-platform music player written in python, HTML
 installation
 ------------
 
+the easiest way to install blast is by using python setuptools "easy_install" command:
+
     $ easy_install blast
+
+you can also install using ez_setup, pip or installing the package directly from pypi. 
 
 
 usage
@@ -51,13 +54,13 @@ open source
 
 blast currently leverages the following open source components to speed development:
 
-    - Flask (http://flask.pocoo.org/)
-    - SoundManager2 (http://www.schillmania.com/projects/soundmanager2/)
-    - SoundManager2 Page Player (http://www.schillmania.com/projects/soundmanager2/demo/page-player/)
-    - jQuery (http://jquery.com/)
-    - jQuery Shuffle Plugin (http://yelotofu.com/labs/jquery/snippets/shuffle/)
-    - Bootstrap (http://twitter.github.com/bootstrap/)
-    - Sticky (http://thrivingkings.com/sticky)
+ - Flask (http://flask.pocoo.org/)
+ - SoundManager2 (http://www.schillmania.com/projects/soundmanager2/)
+ - SoundManager2 Page Player (http://www.schillmania.com/projects/soundmanager2/demo/page-player/)
+ - jQuery (http://jquery.com/)
+ - jQuery Shuffle Plugin (http://yelotofu.com/labs/jquery/snippets/shuffle/)
+ - Bootstrap (http://twitter.github.com/bootstrap/)
+ - Sticky (http://thrivingkings.com/sticky)
 
 
 contributing
