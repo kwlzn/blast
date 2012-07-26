@@ -14,7 +14,9 @@ the easiest way to install blast is by using python setuptools "easy_install" co
 
     $ easy_install blast
 
-you can also install using ez_setup, pip or installing the package directly from pypi. 
+you can also install using ez_setup, pip or installing the package directly using setup.py:
+
+    $ python setup.py install
 
 
 usage
