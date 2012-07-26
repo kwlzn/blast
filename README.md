@@ -4,7 +4,7 @@ blast
 overview
 --------
 
-blast is a simple web-based, multi-platform music player written in python, HTML/CSS and javascript.
+blast is a simple web-based, multi-platform music/mp3 player written in python, HTML/CSS and javascript.
 
 
 installation
