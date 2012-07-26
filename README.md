@@ -23,7 +23,7 @@ usage
     $ cd ~/Music
     $ blast
 
-then you can connect to the blast frontend at http://localhost:5000 (or via IP if you're binding externally with -x).
+then you can connect to the blast frontend at <http://localhost:5000> (or via IP if you're binding externally with -x).
 
 blast is primarily keystroke driven. here's a list of the available key commands:
 
@@ -46,7 +46,9 @@ blast is primarily keystroke driven. here's a list of the available key commands
       r         Randomize List
       d         Debug Mode
 
-when in doubt, hit ? to see this same list in the UI. you can also click on tracks to play/pause and seek around in tracks by clicking on the duration bar.
+when in doubt, you can hit the "?" key to see this same list in the UI.
+
+you can also click on tracks to play/pause and seek around in tracks by clicking on the duration bar.
 
 
 open source
@@ -68,4 +70,4 @@ contributing
 
 blast is open sourced under a simple BSD license. you can find the source code on github:
 
-    https://github.com/kwlzn/blast
+ - <https://github.com/kwlzn/blast>
