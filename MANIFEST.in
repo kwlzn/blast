@@ -1,0 +1,3 @@
+include README.rst
+include LICENSE
+recursive-include blast *.js *.html *.css *.swf *.png

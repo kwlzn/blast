@@ -18,13 +18,17 @@ trunk/0.3
  [x] make installable via python easy_install for quick setup
  [x] fix README formatting problems
  [ ] fix modal visibility problem on start
+ [ ] generate ids for files so we don't have to send back unicode in query strings
+ [ ] automate pypi upload:
+        export COPYFILE_DISABLE=true
+        python setup.py sdist upload
  
 backlog
- [ ] generate ids for files so we don't have to send back unicode in query strings
+ [ ] properly center the modal help window
  [ ] markers / cue points
  [ ] A-B looping
  [ ] make html5 player work with seeking, reenable preferflash: false
- [ ] verify progress meter updates on iOS
+ [ ] verify progress meter updates on iOS (after making html5 player work)
  [ ] make prev track work in shuffle mode
  [ ] figure out why 'MS5/jj - a jj 12_ (2009)_' is broken
  [ ] figure out a good way to automate testing of broken loads

@@ -1,12 +1,17 @@
 import os
 from setuptools import setup, find_packages
 
+def read(f):
+    return open(os.path.join(os.path.dirname(__file__), f)).read()
+
 setup(
        name='blast',
-       version='0.3.0',
-       description='blast',
+       version='0.2.0',
+       description='a simple web-based, multi-platform music/mp3 player written in python, HTML/CSS and javascript',
+       long_description=read('README.rst'),
        keywords='python wsgi web mp3 player javascript html music audio',
        author='kw',
+       author_email='pypi@onoku.com',
        url='http://github.com/kwlzn/blast',
        license='BSD',
        zip_safe=False,
@@ -23,11 +28,15 @@ setup(
        classifiers=[
                      'Development Status :: 4 - Beta',
                      'License :: OSI Approved :: BSD License',
+                     'Environment :: Console',
                      'Environment :: Web Environment',
                      'Operating System :: OS Independent',
                      'Programming Language :: Python',
-                     'Programming Language :: Javascript',
-                     'Programming Language :: HTML',
-                     'Topic :: Multimedia :: Sound/Audio :: Players :: MP3'
+                     'Programming Language :: JavaScript',
+                     'Topic :: Multimedia :: Sound/Audio :: Players :: MP3',
+                     'Topic :: Internet :: WWW/HTTP :: WSGI',
+                     'Classifier: Topic :: Internet :: WWW/HTTP :: WSGI :: Application',
+                     'Topic :: Internet :: WWW/HTTP',
+                     'Topic :: Software Development :: Libraries :: Python Modules',
                    ]
      )
