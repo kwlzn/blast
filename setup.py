@@ -16,7 +16,8 @@ setup(
                             'static/*.css',
                             'static/*.ico',
                             'static/*.png',
-                            'static/*.swf' ] },
+                            'static/swf/*.swf',
+                            'static/swf/*.zip' ] },
        install_requires=['flask'],
        entry_points={ 'console_scripts': [ 'blast = blast.main:main' ] },
        classifiers=[

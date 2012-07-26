@@ -17,9 +17,10 @@
 trunk/0.3
  [x] make installable via python easy_install for quick setup
  [ ] fix modal visibility problem on start
-
+ [ ] fix README formatting problems
+ 
 backlog
- [ ] generate ids for files so we don't have to send back unicode bytes
+ [ ] generate ids for files so we don't have to send back unicode in query strings
  [ ] markers / cue points
  [ ] A-B looping
  [ ] make html5 player work with seeking, reenable preferflash: false
