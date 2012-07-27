@@ -35,7 +35,7 @@ setup(
                      'Programming Language :: JavaScript',
                      'Topic :: Multimedia :: Sound/Audio :: Players :: MP3',
                      'Topic :: Internet :: WWW/HTTP :: WSGI',
-                     'Classifier: Topic :: Internet :: WWW/HTTP :: WSGI :: Application',
+                     'Topic :: Internet :: WWW/HTTP :: WSGI :: Application',
                      'Topic :: Internet :: WWW/HTTP',
                      'Topic :: Software Development :: Libraries :: Python Modules',
                    ]
