@@ -82,17 +82,14 @@ tested/verified platforms
     - Windows chrome
     - Windows firefox
 
-untested platforms
-~~~~~~~~~~~~~~~~~~
+untested, but might work on
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- blast server (untested)
-    - Windows python (non-cygwin) and/or ActiveState python
-    - BSD, Solaris, etc
-
--front-end/UI (untested)
-    - Windows Internet Explorer
-    - Opera
-    - Android
+- Windows python (non-cygwin) and/or ActiveState python
+- Other UNIXs (BSD, Solaris etc) python
+- Windows Internet Explorer
+- Opera
+- Android
 
 open source
 -----------
