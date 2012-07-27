@@ -85,8 +85,8 @@ tested/verified platforms
 might work, but haven't tested on
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    - Windows python (non-cygwin) and/or ActiveState python
-    - Android
+- Windows python (non-cygwin) and/or ActiveState python
+- Android
 
 open source
 -----------
