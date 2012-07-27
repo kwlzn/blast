@@ -69,17 +69,17 @@ blast is written with portability in mind. currently the server (the blast CLI) 
 tested/verified platforms:
 
 - blast server
--- OSX python
--- Cygwin (Windows) python
--- Linux python
+    - OSX python
+    - Cygwin (Windows) python
+    - Linux python
 
 - front-end/UI
--- OSX chrome
--- OSX safari 
--- OSX firefox
--- iOS safari (iPhone/iPad)
--- Windows chrome
--- Windows firefox
+    - OSX chrome
+    - OSX safari 
+    - OSX firefox
+    - iOS safari (iPhone/iPad)
+    - Windows chrome
+    - Windows firefox
 
 should work, but haven't tested on:
 
