@@ -61,6 +61,30 @@ when in doubt, you can also hit the "?" key in the UI to see this same help info
 
 in addition to key commands, you can click on tracks to play/pause and seek around in tracks by clicking on the duration bar.
 
+platform support
+----------------
+
+blast is written with portability in mind. currently the server (the blast CLI) should run anywhere that python can be installed (pretty much everywhere) and the UI should run in most browsers. the UI is also known to work under iOS (e.g. for iPhone/iPad playback) - which means you can stream your large computer-based library to your iOS device over wifi.
+
+tested/verified platforms:
+
+- blast server
+ - OSX python
+ - Cygwin (Windows) python
+ - Linux python
+
+- front-end/UI
+ - OSX chrome
+ - OSX safari 
+ - OSX firefox
+ - iOS safari (iPhone/iPad)
+ - Windows chrome
+ - Windows firefox
+
+should work, but haven't tested on:
+
+ - Windows python (non-cygwin) and/or ActiveState python
+ - Android
 
 open source
 -----------
