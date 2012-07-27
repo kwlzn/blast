@@ -69,35 +69,35 @@ blast is written with portability in mind. currently the server (the blast CLI) 
 tested/verified platforms:
 
 - blast server
- - OSX python
- - Cygwin (Windows) python
- - Linux python
+-- OSX python
+-- Cygwin (Windows) python
+-- Linux python
 
 - front-end/UI
- - OSX chrome
- - OSX safari 
- - OSX firefox
- - iOS safari (iPhone/iPad)
- - Windows chrome
- - Windows firefox
+-- OSX chrome
+-- OSX safari 
+-- OSX firefox
+-- iOS safari (iPhone/iPad)
+-- Windows chrome
+-- Windows firefox
 
 should work, but haven't tested on:
 
- - Windows python (non-cygwin) and/or ActiveState python
- - Android
+- Windows python (non-cygwin) and/or ActiveState python
+- Android
 
 open source
 -----------
 
 blast currently leverages the following open source components to speed development:
 
- - Flask (http://flask.pocoo.org/)
- - SoundManager2 (http://www.schillmania.com/projects/soundmanager2/)
- - SoundManager2 Page Player (http://www.schillmania.com/projects/soundmanager2/demo/page-player/)
- - jQuery (http://jquery.com/)
- - jQuery Shuffle Plugin (http://yelotofu.com/labs/jquery/snippets/shuffle/)
- - Bootstrap (http://twitter.github.com/bootstrap/)
- - Sticky (http://thrivingkings.com/sticky)
+- Flask (http://flask.pocoo.org/)
+- SoundManager2 (http://www.schillmania.com/projects/soundmanager2/)
+- SoundManager2 Page Player (http://www.schillmania.com/projects/soundmanager2/demo/page-player/)
+- jQuery (http://jquery.com/)
+- jQuery Shuffle Plugin (http://yelotofu.com/labs/jquery/snippets/shuffle/)
+- Bootstrap (http://twitter.github.com/bootstrap/)
+- Sticky (http://thrivingkings.com/sticky)
 
 
 contributing
@@ -105,4 +105,4 @@ contributing
 
 blast is open sourced under a simple BSD license. you can find the source code on github:
 
- - https://github.com/kwlzn/blast
+- https://github.com/kwlzn/blast
