@@ -66,25 +66,27 @@ platform support
 
 blast is written with portability in mind. currently the server (the blast CLI) should run anywhere that python can be installed (pretty much everywhere) and the UI should run in most browsers. the UI is also known to work under iOS (e.g. for iPhone/iPad playback) - which means you can stream your large computer-based library to your iOS device over wifi.
 
-tested/verified platforms:
+tested/verified platforms
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- blast server
-    - OSX python
-    - Cygwin (Windows) python
-    - Linux python
+    - blast server
+        - OSX python
+        - Cygwin (Windows) python
+        - Linux python
 
-- front-end/UI
-    - OSX chrome
-    - OSX safari 
-    - OSX firefox
-    - iOS safari (iPhone/iPad)
-    - Windows chrome
-    - Windows firefox
+    - front-end/UI
+        - OSX chrome
+        - OSX safari 
+        - OSX firefox
+        - iOS safari (iPhone/iPad)
+        - Windows chrome
+        - Windows firefox
 
-should work, but haven't tested on:
+might work, but haven't tested on
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- Windows python (non-cygwin) and/or ActiveState python
-- Android
+    - Windows python (non-cygwin) and/or ActiveState python
+    - Android
 
 open source
 -----------
