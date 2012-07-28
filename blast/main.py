@@ -3,13 +3,10 @@
 # blast
 #
 
-import os, sys
+import os, sys, urllib, re
 from flask import Flask, Response, render_template, url_for, send_from_directory, stream_with_context
 from blast.scanner import DirScanner
 
-## Replacements for chars that don't pass easily in query strings
-REPATH_MAP    = { '/': '___',
-                  '#': '__h__' }
 ALLOWED_TYPES = ['.mp3', '.m4a']
 
 ## Initialize flask
@@ -32,23 +29,29 @@ def ise(error): return render_template('500.html'), 500
 def favicon():
     return app.send_static_file('favicon.ico')
 
-def path_replace(path, rules, reverse=False):
-    for char, repl in rules.iteritems():
-        if reverse: repl, char = char, repl
-        path = path.replace(char, repl)
-    return path
-
 ## courtesy of http://flask.pocoo.org/docs/patterns/streaming/
 def stream_template(template_name, **context):
+    ''' allow streaming of jinja templates for reduced page load start latency (e.g. for large lists) '''
     app.update_template_context(context)
     t = app.jinja_env.get_template(template_name)
     rv = t.stream(context)
     rv.enable_buffering(5)
     return rv
 
+def unescape_utf8(msg):
+    ''' convert escaped unicode web entities to unicode '''
+    def sub(m):
+        text = m.group(0)
+        if text[:3] == "&#x": return unichr(int(text[3:-1], 16))
+        else:                 return unichr(int(text[2:-1]))
+    return re.sub("&#?\w+;", sub, urllib.unquote(msg))
+
+def escape_utf8(msg):
+    ''' convert unicode strings to web safe escaped text entities '''
+    return urllib.quote(msg.decode('utf-8').encode('ascii', 'xmlcharrefreplace'))
+
 def iterplayables():
-    ''' fast iterator of playable file object/dicts found on disk
-    '''
+    ''' fast iterator of playable file object/dicts found on disk '''
     ls = DirScanner(stripdot=True)
     ## filter out just mp3 files (and dirs to support recursion)
     filt = lambda x: ( os.path.isdir(x) or x[-4:].lower() in ALLOWED_TYPES )
@@ -56,16 +59,19 @@ def iterplayables():
     func = lambda x: '/'.join(x.split('/')[-2:])
     ## iterate over all the files (excluding dirs), filtering for .mp3 and .m4a
     for x,y in ls.iteritems(want_files=True, want_dirs=False, func=func, filt=filt):
-        yield { 'name':      x.decode('utf-8'),
-                'file_name': path_replace(y, REPATH_MAP).decode('utf-8') }
+        yield {      'name': x.decode('utf-8'),
+                'file_name': escape_utf8(y)     }
 
 @app.route('/')
 def play():
     return Response( stream_template('play.html', entries=stream_with_context(iterplayables())) )
 
-@app.route('/play/<file_str>')
+@app.route('/play/<path:file_str>')
 def play_file(file_str):
-    file_str = path_replace(file_str, REPATH_MAP, reverse=True)
+    print file_str
+    file_str = unescape_utf8(file_str)
+    print file_str
+    ##file_str = path_replace(file_str, REPATH_MAP, reverse=True)
     ## block serving of all other file types (and subdirs via ..) for security reasons
     if ( os.path.splitext(file_str)[1].lower() not in ALLOWED_TYPES or '../' in file_str ):
         return render_template('401.html'), 401

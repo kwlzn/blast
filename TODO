@@ -28,6 +28,7 @@ backlog
  [ ] markers / cue points
  [ ] A-B looping
  [ ] make html5 player work with seeking, reenable preferflash: false
+ [ ] make player loop to beginning on finish of last track
  [ ] verify progress meter updates on iOS (after making html5 player work)
  [ ] make prev track work in shuffle mode
  [ ] figure out why 'MS5/jj - a jj 12_ (2009)_' is broken
