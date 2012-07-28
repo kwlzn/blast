@@ -68,10 +68,7 @@ def play():
 
 @app.route('/play/<path:file_str>')
 def play_file(file_str):
-    print file_str
     file_str = unescape_utf8(file_str)
-    print file_str
-    ##file_str = path_replace(file_str, REPATH_MAP, reverse=True)
     ## block serving of all other file types (and subdirs via ..) for security reasons
     if ( os.path.splitext(file_str)[1].lower() not in ALLOWED_TYPES or '../' in file_str ):
         return render_template('401.html'), 401
