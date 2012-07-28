@@ -17,8 +17,8 @@
 trunk/0.3
  [x] make installable via python easy_install for quick setup
  [x] fix README formatting problems
+ [x] fix loading of files with unicode characters in name (proper html entity conversion)
  [ ] fix modal visibility problem on start
- [ ] generate ids for files so we don't have to send back unicode in query strings
  [ ] automate pypi upload:
         export COPYFILE_DISABLE=true
         python setup.py sdist upload
