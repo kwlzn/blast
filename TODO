@@ -18,19 +18,20 @@ trunk/0.3
  [x] make installable via python easy_install for quick setup
  [x] fix README formatting problems
  [x] fix loading of files with unicode characters in name (proper html entity conversion)
- [ ] fix modal visibility problem on start
+ [x] drag/drop reordering
+ [x] fix modal visibility problem on start
+ [ ] properly center the modal help window
  [ ] automate pypi upload:
         export COPYFILE_DISABLE=true
         python setup.py sdist upload
  
 backlog
- [ ] properly center the modal help window
+ [ ] make prev track work in shuffle mode
  [ ] markers / cue points
  [ ] A-B looping
  [ ] make html5 player work with seeking, reenable preferflash: false
  [ ] make player loop to beginning on finish of last track
  [ ] verify progress meter updates on iOS (after making html5 player work)
- [ ] make prev track work in shuffle mode
  [ ] figure out why 'MS5/jj - a jj 12_ (2009)_' is broken
  [ ] figure out a good way to automate testing of broken loads
  [ ] use databinding to reduce mem size for larger lists; investigate album-based pagination
@@ -53,4 +54,4 @@ backlog
  [ ] service framework (offline scanning, indexing and other tasks)
  [ ] ui views for internal scanner/indexer state: 15,000/25,000 files scanned etc
  [ ] scan phases: names, stat, id tags, mp3sum (checksum of data part of mp3), total checksum
- [ ] drag/drop reordering + pop-out playlist controls
+ [ ] pop-out playlist controls

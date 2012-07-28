@@ -99,7 +99,7 @@ blast currently leverages the following open source components to speed developm
 - Flask (http://flask.pocoo.org/)
 - SoundManager2 (http://www.schillmania.com/projects/soundmanager2/)
 - SoundManager2 Page Player (http://www.schillmania.com/projects/soundmanager2/demo/page-player/)
-- jQuery (http://jquery.com/)
+- jQuery / jQueryUI (http://jquery.com/, http://jqueryui.com)
 - jQuery Shuffle Plugin (http://yelotofu.com/labs/jquery/snippets/shuffle/)
 - Bootstrap (http://twitter.github.com/bootstrap/)
 - Sticky (http://thrivingkings.com/sticky)
