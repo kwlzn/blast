@@ -14,17 +14,17 @@
  [x] fix serving of non-mp3 files/outside of root dir; use relative paths to cwd
  [x] keep trying to load remaining tracks if a track 404's
 
-trunk/0.3
+0.3
  [x] make installable via python easy_install for quick setup
  [x] fix README formatting problems
  [x] fix loading of files with unicode characters in name (proper html entity conversion)
  [x] drag/drop reordering
  [x] fix modal visibility problem on start
+ [x] automate pypi upload: export COPYFILE_DISABLE=true; python setup.py sdist upload
+
+trunk/0.4
  [ ] properly center the modal help window
- [ ] automate pypi upload:
-        export COPYFILE_DISABLE=true
-        python setup.py sdist upload
- 
+
 backlog
  [ ] make prev track work in shuffle mode
  [ ] markers / cue points
