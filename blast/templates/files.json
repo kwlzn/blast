@@ -1,0 +1,6 @@
+[
+{% for entry in entries %}
+    { "file_name": "{{ entry.file_name|safe }}", "name": "{{ entry.name|safe }}" },
+{% endfor %}
+    {}
+]

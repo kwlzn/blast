@@ -17,7 +17,7 @@ app.config['USERNAME']   = 'admin'
 app.config['PASSWORD']   = 'blastadmin'
 
 @app.errorhandler(401)
-def page_not_found(error): return render_template('401.html'), 401
+def page_not_authorized(error): return render_template('401.html'), 401
 
 @app.errorhandler(404)
 def page_not_found(error): return render_template('404.html'), 404
@@ -63,11 +63,19 @@ def iterplayables():
                 'file_name': escape_utf8(y)     }
 
 @app.route('/')
-def play():
+def playh():
     return Response( stream_template('play.html', entries=stream_with_context(iterplayables())) )
 
+@app.route('/viz')
+def vizh():
+    return render_template('viz.html')
+
+@app.route('/play/json')
+def jsonh():
+    return Response( stream_template('files.json', entries=stream_with_context(iterplayables())) )
+
 @app.route('/play/<path:file_str>')
-def play_file(file_str):
+def play_fileh(file_str):
     file_str = unescape_utf8(file_str)
     ## block serving of all other file types (and subdirs via ..) for security reasons
     if ( os.path.splitext(file_str)[1].lower() not in ALLOWED_TYPES or '../' in file_str ):

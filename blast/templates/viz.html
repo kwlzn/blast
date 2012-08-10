@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/d3/2.8.1/d3.v2.min.js"></script>
+</head>
+<body>
+    <div id="viz">
+        <svg class="main"></svg>
+        <ul class="playlist"></ul>
+    </div>
+    <script>
+        var data; // = [ {'name': 'abc', 'file_name': 'abc'}, {'name': 'xyz', 'file_name': 'xyz'} ];
+        var svg = d3.select("svg.main");
+        
+        d3.json("/play/json", function(json) {
+                data = json;
+                
+                svg.selectAll("circle")
+                   .data(json).enter()
+                   .append("circle")
+                   .attr("r", 40)
+                   .attr("cx", function(d, i){ return i*90; })
+                   .attr("cy", function(d, i){ return i*80; });
+                
+                svg.selectAll("text")
+                   .data(json).enter()
+                   .append("text")
+                   .style("fill", "red")
+                   .attr("x", function(d, i){ return i*90; })
+                   .attr("y", function(d, i){ return i*80; })
+                   .attr("font-size", 32)
+                   .attr("font-family", "Lucida Console")
+                   .text(function(d){ return d['name']; });
+                  
+                  //.attr("href", function(d) { return d["file_name"]; })
+                  //          .text(function(d) { return d['name'];      });
+            });
+
+        // var data; // = [ {'name': 'abc', 'file_name': 'abc'}, {'name': 'xyz', 'file_name': 'xyz'} ];
+        // var ul = d3.select("ul.playlist");
+        // 
+        // d3.json("/play/json", function(json) {
+        //         data = json;
+        // 
+        //         ul.selectAll("li")
+        //           .data(json).enter()
+        //           .append("li").append("a")
+        //           .attr("href", function(d) { return d["file_name"]; })
+        //                   .text(function(d) { return d['name'];      });
+        //     });
+        //
+        //--------------------------------------------------------------------------
+        //
+        // var x = d3.select("#viz")
+        //           .append("svg")
+        //           .attr("width", "100%")
+        //           .attr("height", "100%");
+        // 
+        // x.selectAll("circle")
+        //  .data(data).enter()
+        //  .append("circle")
+        //  .style("stroke", "gray")
+        //  .style("fill", "white")
+        //  .attr("r", 5)
+        //  .attr("x", function(d, i){return i*80})
+        //  .attr("y", 20)
+        //  .attr("cx", 50)
+        //  .attr("cy", 50)
+        //  .on("mouseover", function(){d3.select(this).style("fill", "aliceblue");})
+        //  .on("mouseout",  function(){d3.select(this).style("fill", "white");});
+    </script>
+</body>
+</html>​
