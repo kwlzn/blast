@@ -80,13 +80,13 @@ def play_fileh(file_str):
     ## block serving of all other file types (and subdirs via ..) for security reasons
     if ( os.path.splitext(file_str)[1].lower() not in ALLOWED_TYPES or '../' in file_str ):
         return render_template('401.html'), 401
-    
+
     base_dir  = os.path.abspath(os.getcwd())
     file_name = os.path.join(base_dir, file_str)
     if not os.path.exists(file_name):
-        print 'ERROR: file "%s" doesnt exist' % file_name
+        print('ERROR: file "%s" doesnt exist' % file_name)
         return render_template('404.html'), 404
-    
+
     dirname, basename = os.path.dirname(file_name), os.path.basename(file_name)
     ## one more validation that the file we're serving is coming from cwd
     if not dirname[:len(base_dir)] == base_dir: return render_template('401.html'), 401
@@ -102,14 +102,17 @@ def play_fileh(file_str):
 #    return render_template('dupes.html', entries=entries)
 
 def usage(bail=False):
-    print ''' usage: cd /path/to/some/mp3s && blast
-    
+    print(
+        '''
+            usage: cd /path/to/some/mp3s && blast
+
               options
               -------
                 -h        Print this help screen
                 -x        Run externally (otherwise binds only to localhost)
                 -d        Daemonize (run in background)
-          '''
+        '''
+        )
     if bail: sys.exit(0)
 
 def run_as_daemon(func, *args, **kwargs):
@@ -122,7 +125,7 @@ def run_as_daemon(func, *args, **kwargs):
         pid = os.fork()
         if (pid == 0):
             ## forked twice and ready to run
-            print 'pid: %s, cwd: %s' % (os.getpid(), cwd)
+            print('pid: %s, cwd: %s' % (os.getpid(), cwd))
             os.chdir(cwd)
             os.umask(0)
             sys.stdout.flush(), sys.stderr.flush(), sys.stdin.close()
@@ -137,7 +140,7 @@ def run_as_daemon(func, *args, **kwargs):
 def main():
     if '-h' in sys.argv or '--help' in sys.argv: usage(bail=True)
     host = '0.0.0.0' if ('-x' in sys.argv) else '127.0.0.1'
-    
+
     if '-d' in sys.argv: run_as_daemon(app.run, **{'host': host})
     else:                app.run(host=host)
 

@@ -7,17 +7,17 @@ def read(f):
 os.environ['COPYFILE_DISABLE'] = 'true'    ## turn off annoying dot files on OSX
 
 if len(sys.argv) > 1 and sys.argv[1] == '--release':
-    print '[ Releasing! ]'
+    print('[ Releasing! ]')
     cmd = '%s setup.py sdist upload' % sys.executable
     subprocess.call(cmd, shell=True)
-    
+
 elif len(sys.argv) > 1 and sys.argv[1] == '--clean':
-    print '[ Cleaning up ]'
+    print('[ Cleaning up ]')
     files = ['blast.egg-info', 'dist']
     cmd = 'rm -rvf ' + ' '.join(files)
-    print 'Running command: %s' % cmd
+    print('Running command: %s' % cmd)
     subprocess.call(cmd, shell=True)
-    
+
 else:
     setup(
            name='blast',
